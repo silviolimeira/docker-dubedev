@@ -1,0 +1,27 @@
+Fazer o deployment
+
+$ kubectl apply -f ./deployment.yaml
+
+$ kubectl get pods
+
+$ kubectl get all
+
+# verificando o acesso com port-forward
+$ kubectl port-forward service/postgre 5432:5432
+
+Abrir o DBeaver o banco de dados do postgres para confirmar o pods
+
+SELECT id, title, summary, "publishDate", "content", "createdAt", "updatedAt"
+FROM public."Posts";
+
+
+
+Realizar a configuração da aplicação web no deployment.yaml
+
+$ kubectl apply -f ./deployment.yaml
+
+# kubectl get pods
+
+
+
+

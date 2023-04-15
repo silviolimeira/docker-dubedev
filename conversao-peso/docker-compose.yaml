@@ -1,0 +1,17 @@
+version: "3.4"
+
+volumes:
+  shared-folder:
+
+services:
+  webapp:
+    restart: always
+    container_name: myproject
+    image: sicemal/conversao-peso:v1
+    ports:
+      - 8080:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    volumes:
+      - shared-folder:/app

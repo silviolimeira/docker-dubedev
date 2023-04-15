@@ -1,0 +1,6 @@
+
+Alterar o arquivo nav-bar.ejs
+
+$ docker build -t sicemal/kube-news:v1 .
+
+$ docker push sicemal/kube-news:v1

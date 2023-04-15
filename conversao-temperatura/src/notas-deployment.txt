@@ -1,0 +1,50 @@
+
+Arquivo de manifesto deployment.xaml, controla e publica versões atualizadas dos pods.
+
+
+
+
+ReplicaSet v1
+Replcias 3:
+Template: Pod
+
+Pod     Pod     Pod 
+
+
+No lançamento de uma nova versão da imagem dos Pods:
+aos poucos o novo ReplicaSet v2, por exemplo:
+Atualizará todos os Pods são recriados sendo controlados pelo novo ReplicaSet v2.
+
+Criar um novo arquivo de Manifesto deployment.xaml
+
+Exemplo:
+---------------------------------------------------------------------------------------
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: meureplicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: site
+          image: fabricioveronez/web-page:blue
+          ports:
+            - containerPort: 80
+---------------------------------------------------------------------------------------
+
+Aplicar o novo manifesto de deployment
+
+$ kubectl apply -f deployment.xaml
+
+
+
+

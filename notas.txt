@@ -1,0 +1,57 @@
+Environment Setup:
+$ export PATH=/d/projeto-novo/nvm-noinstall:/d/nodejs-nvm/:$PATH
+SET PATH=d:\nodejs-nvm;%PATH%;
+
+Install nvm Node:
+$ nvm install 18.16.0
+$ nvm use 18.16.0
+
+
+
+Criando o container e inicializando o MongoDB:
+$ docker container run -v mongo_vol:/data/db --network produto_net --name mongodb -p 27017:27017 -d -e MONGO_INITDB_ROOT_USERNAME=mongouser -e MONGO_INITDB_ROOT_PASSWORD=mongopwd mongo:4.4.3
+
+$ docker run --rm -it rtsp/mongosh mongosh -- mongodb://127.0.0.1:27017
+
+$ mongo -u mongouser -p mongopwd
+$ > show dbs;
+$ > show collections;
+$ > db.movies.find();
+
+
+Criando o volume do mongodb:
+docker volume create mongo_vol
+
+Construindo a imagem do api-produto/src:
+$ docker build -t sicemal/api-produto:v1 .
+
+Subindo para o docker hub:
+$ docker login
+$ docker logout
+
+$ docker push sicemal/api-produto:v1
+$ docker tag sicemal/api-produto:v1 sicemal/api-produto:latest 
+$ docker push sicemal/api-produto:latest
+
+
+Criando a rede
+$ docker network create produto_net
+$ docker network ls
+
+$ docker container ls
+# mongo:4.4.3
+$ docker network connect produto_net 9961b63cf663
+$ docker inspect 9961b63cf663
+
+$ docker container run -d -p 8080:8080 --network produto_net -e MONGODB_URI=mongodb://mongouser:mongopwd@mongodb:27017/admin sicemal/api-produto:v1
+
+
+$ docker logs efafe4bd1472
+
+
+Como usar o Docker Compose: (Deve estar no diretório src do arquivo docker-compose.yaml )
+
+$ docker-compose up -d --build
+
+Utilizando variáveis de ambiente e forcando o --build com parametro:
+$ docker-compose --env-file ./.env up -d --build
